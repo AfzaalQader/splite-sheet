@@ -4,11 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// Router import here
+var indexRouter = require('./api/routes/index');
+var userRouter = require('./api/routes//user.route');
 
-const dotenv = require('dotenv');
-dotenv.config();
+// Database
+const DB = require("./server/boot/db.connection");
+
+// const dotenv = require('dotenv');
+// dotenv.config();
 
 var app = express();
 
@@ -22,8 +26,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Uses routes
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/users', userRouter);
+
+// Database sync
+DB.sync = ({
+    force: true,  // -- Note: Warning! This will re-create the complete database and data will be lost.
+    alter: true, // -- Use when you want to update table schema without loosing the data.
+}, (req, res) => {
+  console.log("Database created successfully!");
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
