@@ -6,15 +6,20 @@ var logger = require('morgan');
 
 // Router import here
 var indexRouter = require('./api/routes/index');
-var userRouter = require('./api/routes//user.route');
+var userRouter = require('./api/routes/user.route');
+var albumRouter = require('./api/routes/album.route');
+var artistRouter = require('./api/routes/artist.route');
+var songRouter = require('./api/routes/song.route');
 
 // Database
 const DB = require("./server/boot/db.connection");
 
 // const dotenv = require('dotenv');
 // dotenv.config();
-
+const cors = require('cors');
 var app = express();
+
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,6 +34,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Uses routes
 app.use('/', indexRouter);
 app.use('/users', userRouter);
+app.use('/album', albumRouter);
+app.use('/artist', artistRouter);
+app.use('/song', songRouter);
 
 // Database sync
 DB.sync ({
