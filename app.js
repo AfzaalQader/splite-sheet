@@ -41,7 +41,7 @@ app.use('/song', songRouter);
 // Database sync
 DB.sync ({
     // force: true,  // -- Note: Warning! This will re-create the complete database and data will be lost.
-    alter: true, // -- Use when you want to update table schema without loosing the data.
+    // alter: true, // -- Use when you want to update table schema without loosing the data.
 }, (req, res) => {
   console.log("Database created successfully!");
 });
